@@ -1,0 +1,56 @@
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const toggleDark = () => {
+    const html = document.documentElement;
+    html.classList.toggle("dark");
+    localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  const links = [
+    { to: "/", label: "Home" },
+    { to: "/services", label: "Services" },
+    { to: "/portfolio", label: "Portfolio" },
+    { to: "/blog", label: "Blog" },
+    { to: "/about", label: "About" },
+    { to: "/contact", label: "Contact" }
+  ];
+
+  return (
+    <nav className="bg-navy text-white sticky top-0 z-50 shadow">
+      <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
+        <Link to="/" className="text-2xl font-bold">
+          Mithila <span className="text-primary" >Stack</span>
+        </Link>
+        <div className="flex items-center gap-4">
+          <button onClick={toggleDark} className="hidden md:block bg-primary px-3 py-2 rounded" title="Toggle Theme">🌙</button>
+          <button className="md:hidden text-2xl" onClick={() => setOpen(!open)}>
+            <i className="fas fa-bars" />
+          </button>
+        </div>
+      </div>
+      <ul className={`md:flex md:static absolute bg-navy w-full md:w-auto transition-all duration-300 ${open ? "opacity-100 pointer-events-auto" : "opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto"} md:space-x-6 p-4 md:p-0`}>
+        {links.map(({ to, label }) => (
+          <li key={to} className="my-2 md:my-0">
+            <NavLink onClick={() => setOpen(false)} to={to} className="hover:text-primary after:block after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all">
+              {label}
+            </NavLink>
+          </li>
+        ))}
+        <li className="block md:hidden mt-2">
+          <button onClick={toggleDark} className="bg-primary px-3 py-2 rounded w-full">🌙 Theme</button>
+        </li>
+      </ul>
+      
+    </nav>
+  );
+}
