@@ -1,0 +1,9 @@
+export default function Footer() {
+  return (
+    <footer className="bg-navy text-white text-center py-8" data-aos="fade-up flex-grow">
+      <p className="font-bold">Mithila Stack | Darbhanga, Bihar, India</p>
+      <p>Email: hello@mithilastack.com | Phone: +91 12345 67890</p>
+      <p className="mt-2">© {new Date().getFullYear()} Mithila Stack. All rights reserved.</p>
+    </footer>
+  );
+}
